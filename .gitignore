@@ -1,0 +1,12 @@
+# Maven / Build
+target/
+bin/
+*.class
+
+# IDEs y Editores
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
