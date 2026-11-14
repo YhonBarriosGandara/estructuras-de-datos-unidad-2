@@ -23,6 +23,7 @@ public class Main {
             System.out.println("2. Búsqueda lineal con centinela");
             System.out.println("3. Contrastar ambos métodos con un número");
             System.out.println("4. Casos de prueba predefinidos");
+            System.out.println("5. Prueba de rendimiento a escala");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -33,6 +34,7 @@ public class Main {
                 case 2 -> busquedaCentinela(scanner, identificaciones);
                 case 3 -> contrastar(scanner, identificaciones);
                 case 4 -> probarCasos(identificaciones);
+                case 5 -> probarRendimiento();
                 case 0 -> System.out.println("Saliendo del programa...");
                 default -> System.out.println("Opción no válida. Intente nuevamente.");
             }
@@ -112,6 +114,42 @@ public class Main {
                 " | " + resTradicional.getComparaciones() + " comparaciones | " + resTradicional.getTiempoNanos() + " ns");
         System.out.println("  Centinela:   " + (resCentinela.isEncontrado() ? "Índice " + resCentinela.getIndice() : "No hallado") +
                 " | " + resCentinela.getComparaciones() + " comparaciones | " + resCentinela.getTiempoNanos() + " ns");
+    }
+
+    private static void probarRendimiento() {
+        int[] tamanosMuestra = { 10000, 100000, 1000000 };
+
+        System.out.println("\n==========================================================================");
+        System.out.println("          BANCO EXPERIMENTAL DE RENDIMIENTO A DIFERENTES ESCALAS          ");
+        System.out.println("==========================================================================");
+        System.out.println(String.format("%-12s | %-25s | %-25s", "Tamaño (N)", "Lineal Tradicional", "Lineal con Centinela"));
+        System.out.println(String.format("%-12s | %-12s %-12s | %-12s %-12s", "", "Comps", "Tiempo (ms)", "Comps", "Tiempo (ms)"));
+        System.out.println("--------------------------------------------------------------------------");
+
+        for (int tamano : tamanosMuestra) {
+            int[] muestra = new int[tamano];
+            for (int i = 0; i < tamano; i++) {
+                muestra[i] = 1000000 + i;
+            }
+
+            int valorInexistente = -1; // Forzar peor caso O(n)
+
+            ResultadoBusqueda resTradicional = BuscadorIdentificaciones.busquedaLinealTradicional(muestra, valorInexistente);
+            ResultadoBusqueda resCentinela = BuscadorIdentificaciones.busquedaLinealCentinela(muestra, valorInexistente);
+
+            double tiempoTradicionalMs = resTradicional.getTiempoNanos() / 1_000_000.0;
+            double tiempoCentinelaMs = resCentinela.getTiempoNanos() / 1_000_000.0;
+
+            System.out.println(String.format("%-12d | %-12d %-12.4f | %-12d %-12.4f",
+                    tamano,
+                    resTradicional.getComparaciones(),
+                    tiempoTradicionalMs,
+                    resCentinela.getComparaciones(),
+                    tiempoCentinelaMs));
+        }
+        System.out.println("==========================================================================");
+        System.out.println("Conclusión: Ambos realizan N comparaciones de clave (complejidad O(n)),");
+        System.out.println("pero el Centinela suprime la verificación de desbordamiento en cada ciclo.");
     }
 
     private static void mostrarResultado(ResultadoBusqueda resultado) {
