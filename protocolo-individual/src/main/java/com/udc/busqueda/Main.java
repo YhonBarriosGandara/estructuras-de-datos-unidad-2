@@ -20,6 +20,7 @@ public class Main {
             System.out.println("==========================================");
             System.out.println("1. Búsqueda lineal tradicional");
             System.out.println("2. Búsqueda lineal con centinela");
+            System.out.println("3. Contrastar ambos métodos con un número");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -28,6 +29,7 @@ public class Main {
             switch (opcion) {
                 case 1 -> busquedaTradicional(scanner, identificaciones);
                 case 2 -> busquedaCentinela(scanner, identificaciones);
+                case 3 -> contrastar(scanner, identificaciones);
                 case 0 -> System.out.println("Saliendo del programa...");
                 default -> System.out.println("Opción no válida. Intente nuevamente.");
             }
@@ -53,6 +55,23 @@ public class Main {
 
         System.out.println("\n[Resultado Búsqueda con Centinela]");
         mostrarResultado(resultado);
+    }
+
+    private static void contrastar(Scanner scanner, int[] identificaciones) {
+        System.out.print("Ingrese número de identificación para contrastar: ");
+        int objetivo = scanner.nextInt();
+
+        ResultadoBusqueda resTradicional = BuscadorIdentificaciones.busquedaLinealTradicional(identificaciones, objetivo);
+        ResultadoBusqueda resCentinela = BuscadorIdentificaciones.busquedaLinealCentinela(identificaciones, objetivo);
+
+        System.out.println("\n--- Contraste para el valor: " + objetivo + " ---");
+        System.out.println("Tradicional -> Encontrado: " + (resTradicional.isEncontrado() ? "SÍ (índice " + resTradicional.getIndice() + ")" : "NO") +
+                " | Comparaciones: " + resTradicional.getComparaciones() +
+                " | Tiempo: " + resTradicional.getTiempoNanos() + " ns");
+
+        System.out.println("Centinela   -> Encontrado: " + (resCentinela.isEncontrado() ? "SÍ (índice " + resCentinela.getIndice() + ")" : "NO") +
+                " | Comparaciones: " + resCentinela.getComparaciones() +
+                " | Tiempo: " + resCentinela.getTiempoNanos() + " ns");
     }
 
     private static void mostrarResultado(ResultadoBusqueda resultado) {
