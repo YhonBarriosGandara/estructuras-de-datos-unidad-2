@@ -19,6 +19,7 @@ public class Main {
             System.out.println("  SISTEMA DE BÚSQUEDA DE IDENTIFICACIONES ");
             System.out.println("==========================================");
             System.out.println("1. Búsqueda lineal tradicional");
+            System.out.println("2. Búsqueda lineal con centinela");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -26,6 +27,7 @@ public class Main {
 
             switch (opcion) {
                 case 1 -> busquedaTradicional(scanner, identificaciones);
+                case 2 -> busquedaCentinela(scanner, identificaciones);
                 case 0 -> System.out.println("Saliendo del programa...");
                 default -> System.out.println("Opción no válida. Intente nuevamente.");
             }
@@ -40,6 +42,16 @@ public class Main {
         ResultadoBusqueda resultado = BuscadorIdentificaciones.busquedaLinealTradicional(identificaciones, objetivo);
 
         System.out.println("\n[Resultado Búsqueda Tradicional]");
+        mostrarResultado(resultado);
+    }
+
+    private static void busquedaCentinela(Scanner scanner, int[] identificaciones) {
+        System.out.print("Ingrese número de identificación a buscar: ");
+        int objetivo = scanner.nextInt();
+
+        ResultadoBusqueda resultado = BuscadorIdentificaciones.busquedaLinealCentinela(identificaciones, objetivo);
+
+        System.out.println("\n[Resultado Búsqueda con Centinela]");
         mostrarResultado(resultado);
     }
 
