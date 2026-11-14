@@ -24,6 +24,7 @@ public class Main {
             System.out.println("3. Contrastar ambos métodos con un número");
             System.out.println("4. Casos de prueba predefinidos");
             System.out.println("5. Prueba de rendimiento a escala");
+            System.out.println("6. Mostrar identificaciones registradas");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -35,6 +36,7 @@ public class Main {
                 case 3 -> contrastar(scanner, identificaciones);
                 case 4 -> probarCasos(identificaciones);
                 case 5 -> probarRendimiento();
+                case 6 -> System.out.println("Identificaciones: " + Arrays.toString(identificaciones));
                 case 0 -> System.out.println("Saliendo del programa...");
                 default -> System.out.println("Opción no válida. Intente nuevamente.");
             }
