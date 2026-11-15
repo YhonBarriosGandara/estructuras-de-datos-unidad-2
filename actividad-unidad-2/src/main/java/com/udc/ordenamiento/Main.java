@@ -16,6 +16,7 @@ public class Main {
             System.out.println("  CLASIFICACIÓN DE TIEMPOS DEPORTIVOS (COMPETENCIA)   ");
             System.out.println("======================================================");
             System.out.println("1. Clasificar tiempos con Bubble Sort");
+            System.out.println("2. Clasificar tiempos con Selection Sort");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -23,6 +24,7 @@ public class Main {
 
             switch (opcion) {
                 case 1 -> clasificarBurbuja(tiempos);
+                case 2 -> clasificarSeleccion(tiempos);
                 case 0 -> System.out.println("Saliendo del sistema deportivo...");
                 default -> System.out.println("Opción no válida. Intente nuevamente.");
             }
@@ -35,6 +37,15 @@ public class Main {
         System.out.println("Tiempos iniciales: " + Arrays.toString(tiempos));
 
         ResultadoOrdenamiento resultado = ClasificadorTiempos.burbuja(tiempos);
+
+        mostrarDetalles(resultado);
+    }
+
+    private static void clasificarSeleccion(double[] tiempos) {
+        System.out.println("\n[Clasificación con Selection Sort]");
+        System.out.println("Tiempos iniciales: " + Arrays.toString(tiempos));
+
+        ResultadoOrdenamiento resultado = ClasificadorTiempos.seleccion(tiempos);
 
         mostrarDetalles(resultado);
     }
