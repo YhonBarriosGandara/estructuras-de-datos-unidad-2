@@ -17,6 +17,7 @@ public class Main {
             System.out.println("======================================================");
             System.out.println("1. Clasificar tiempos con Bubble Sort");
             System.out.println("2. Clasificar tiempos con Selection Sort");
+            System.out.println("3. Comparar Bubble Sort vs Selection Sort (Métricas y veredicto)");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -25,6 +26,7 @@ public class Main {
             switch (opcion) {
                 case 1 -> clasificarBurbuja(tiempos);
                 case 2 -> clasificarSeleccion(tiempos);
+                case 3 -> contrastarMetodos(tiempos);
                 case 0 -> System.out.println("Saliendo del sistema deportivo...");
                 default -> System.out.println("Opción no válida. Intente nuevamente.");
             }
@@ -48,6 +50,33 @@ public class Main {
         ResultadoOrdenamiento resultado = ClasificadorTiempos.seleccion(tiempos);
 
         mostrarDetalles(resultado);
+    }
+
+    private static void contrastarMetodos(double[] tiempos) {
+        System.out.println("\n[Comparativa Directa de Algoritmos]");
+        System.out.println("Tiempos evaluados: " + Arrays.toString(tiempos));
+
+        ResultadoOrdenamiento resBurbuja = ClasificadorTiempos.burbuja(tiempos);
+        ResultadoOrdenamiento resSeleccion = ClasificadorTiempos.seleccion(tiempos);
+
+        System.out.println("\n------------------------------------------------------------");
+        System.out.printf("%-26s %-16s %-16s%n", "Métrica", "Bubble Sort", "Selection Sort");
+        System.out.println("------------------------------------------------------------");
+        System.out.printf("%-26s %-16d %-16d%n", "Comparaciones", resBurbuja.getComparaciones(), resSeleccion.getComparaciones());
+        System.out.printf("%-26s %-16d %-16d%n", "Intercambios (movimientos)", resBurbuja.getIntercambios(), resSeleccion.getIntercambios());
+        System.out.printf("%-26s %-16s %-16s%n", "Tiempo de ejecución", resBurbuja.getTiempoNanos() + " ns", resSeleccion.getTiempoNanos() + " ns");
+        System.out.println("------------------------------------------------------------");
+
+        System.out.println("Veredicto de eficiencia:");
+        long diferenciaMovimientos = resBurbuja.getIntercambios() - resSeleccion.getIntercambios();
+        if (diferenciaMovimientos > 0) {
+            System.out.println("Selection Sort realizó " + diferenciaMovimientos + " movimientos menos que Bubble Sort.");
+            System.out.println("Fundamento: Selection Sort realiza a lo sumo N-1 intercambios, optimizando la reubicación de elementos.");
+        } else if (diferenciaMovimientos < 0) {
+            System.out.println("Bubble Sort realizó " + Math.abs(diferenciaMovimientos) + " movimientos menos debido a la bandera de corte temprano.");
+        } else {
+            System.out.println("Ambos algoritmos realizaron la misma cantidad de movimientos.");
+        }
     }
 
     private static void mostrarDetalles(ResultadoOrdenamiento resultado) {
