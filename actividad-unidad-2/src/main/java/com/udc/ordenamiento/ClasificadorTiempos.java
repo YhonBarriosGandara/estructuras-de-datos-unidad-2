@@ -53,4 +53,46 @@ public final class ClasificadorTiempos {
 
         return new ResultadoOrdenamiento(copiaTiempos, comparaciones, intercambios, duracionNanos);
     }
+
+    /**
+     * Ordena registros de tiempos de menor a mayor usando Selection Sort.
+     * Contabiliza las comparaciones e intercambios realizados.
+     *
+     * @param tiempos arreglo con los tiempos registrados en la competencia
+     * @return resultado inmutable con los tiempos ordenados y las métricas
+     */
+    public static ResultadoOrdenamiento seleccion(double[] tiempos) {
+        if (tiempos == null || tiempos.length == 0) {
+            return new ResultadoOrdenamiento(new double[0], 0, 0, 0);
+        }
+
+        double[] copiaTiempos = tiempos.clone();
+        int totalElementos = copiaTiempos.length;
+        long comparaciones = 0;
+        long intercambios = 0;
+        long inicioTiempo = System.nanoTime();
+
+        for (int i = 0; i < totalElementos - 1; i++) {
+            int indiceMinimo = i;
+
+            for (int j = i + 1; j < totalElementos; j++) {
+                comparaciones++;
+                if (copiaTiempos[j] < copiaTiempos[indiceMinimo]) {
+                    indiceMinimo = j;
+                }
+            }
+
+            if (indiceMinimo != i) {
+                double tiempoAuxiliar = copiaTiempos[i];
+                copiaTiempos[i] = copiaTiempos[indiceMinimo];
+                copiaTiempos[indiceMinimo] = tiempoAuxiliar;
+                intercambios++;
+            }
+        }
+
+        long finTiempo = System.nanoTime();
+        long duracionNanos = finTiempo - inicioTiempo;
+
+        return new ResultadoOrdenamiento(copiaTiempos, comparaciones, intercambios, duracionNanos);
+    }
 }
