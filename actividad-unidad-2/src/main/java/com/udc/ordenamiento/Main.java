@@ -18,6 +18,7 @@ public class Main {
             System.out.println("1. Clasificar tiempos con Bubble Sort");
             System.out.println("2. Clasificar tiempos con Selection Sort");
             System.out.println("3. Comparar Bubble Sort vs Selection Sort (Métricas y veredicto)");
+            System.out.println("4. Ejecutar escenarios de prueba (Casi ordenado, Inverso, Empates)");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -27,6 +28,7 @@ public class Main {
                 case 1 -> clasificarBurbuja(tiempos);
                 case 2 -> clasificarSeleccion(tiempos);
                 case 3 -> contrastarMetodos(tiempos);
+                case 4 -> ejecutarEscenariosDePrueba();
                 case 0 -> System.out.println("Saliendo del sistema deportivo...");
                 default -> System.out.println("Opción no válida. Intente nuevamente.");
             }
@@ -77,6 +79,36 @@ public class Main {
         } else {
             System.out.println("Ambos algoritmos realizaron la misma cantidad de movimientos.");
         }
+    }
+
+    private static void ejecutarEscenariosDePrueba() {
+        System.out.println("\n============================================================");
+        System.out.println("         EJECUCIÓN DE ESCENARIOS DE PRUEBA AVANZADOS        ");
+        System.out.println("============================================================");
+
+        probarEscenario("1. Arreglo Casi Ordenado (Mejor caso para Bubble Sort)",
+                new double[] { 9.80, 9.85, 9.90, 10.00, 9.95, 10.10, 10.20 });
+
+        probarEscenario("2. Arreglo Totalmente Invertido (Peor caso para Bubble Sort)",
+                new double[] { 10.50, 10.35, 10.20, 10.10, 9.98, 9.90, 9.80 });
+
+        probarEscenario("3. Arreglo con Empates / Tiempos Duplicados (Estabilidad)",
+                new double[] { 10.15, 9.98, 10.05, 9.98, 9.85, 10.20, 9.85 });
+    }
+
+    private static void probarEscenario(String titulo, double[] datos) {
+        System.out.println("\n>>> " + titulo);
+        System.out.println("Entrada: " + Arrays.toString(datos));
+
+        ResultadoOrdenamiento resBurbuja = ClasificadorTiempos.burbuja(datos);
+        ResultadoOrdenamiento resSeleccion = ClasificadorTiempos.seleccion(datos);
+
+        System.out.printf("  - Bubble Sort    -> Comp: %2d | Swaps: %2d | Ordenado: %s%n",
+                resBurbuja.getComparaciones(), resBurbuja.getIntercambios(),
+                Arrays.toString(resBurbuja.getTiemposOrdenados()));
+        System.out.printf("  - Selection Sort -> Comp: %2d | Swaps: %2d | Ordenado: %s%n",
+                resSeleccion.getComparaciones(), resSeleccion.getIntercambios(),
+                Arrays.toString(resSeleccion.getTiemposOrdenados()));
     }
 
     private static void mostrarDetalles(ResultadoOrdenamiento resultado) {
